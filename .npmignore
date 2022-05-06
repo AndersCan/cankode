@@ -1,0 +1,8 @@
+coverage/
+test/
+src/
+index.html
+
+.prettierrc
+.travis.yml
+tsconfig.json

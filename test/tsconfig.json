@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "outDir": "lib",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "target": "es2015",
+    "removeComments": true,
+    "noEmitOnError": true
+  }
+}
