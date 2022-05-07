@@ -1,5 +1,6 @@
-import { ITypedWorker, WorkerFunctionProps } from './typed-worker'
+import type {ITypedWorker, WorkerFunctionProps} from './typed-worker'
 
-import { createWorker, ICreateWorkerProps } from './create-worker'
+import type { ICreateWorkerProps } from './create-worker'
+import { createWorker } from './create-worker'
 
 export { createWorker, ITypedWorker, ICreateWorkerProps, WorkerFunctionProps }

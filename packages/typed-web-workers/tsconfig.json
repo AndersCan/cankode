@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
+    "moduleResolution": "Node",
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
     "strict": true,
-    "declaration": true,
     "module": "ESNext",
     "skipLibCheck": true,
-    "target": "ESNext"
+    "noEmitOnError": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src"
+    "packages/"
   ]
 }

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "moduleResolution": "Node",
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strict": true,

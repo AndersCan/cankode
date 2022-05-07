@@ -2,8 +2,9 @@
   "name": "typed-tester",
   "version": "0.0.0",
   "description": "test-utils",
-  "exports":{
-    "import": "./index.ts"
+  "exports": {
+    ".": "./index.ts",
+    "./runner": "./runner.ts"
   },
   "volta": {
     "node": "14.19.2"
@@ -15,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/glob-stream": "^6.1.1",
+    "esbuild": "^0.14.38",
     "glob-stream": "^7.0.0"
   }
 }
