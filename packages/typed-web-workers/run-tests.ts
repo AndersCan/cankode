@@ -1,3 +1,9 @@
-import { getHtmlFile } from 'typed-tester/runner';
+import { startTestServer } from 'typed-tester/start-test-server';
+import { testPage } from 'typed-tester/browser-runner';
 
-getHtmlFile('./**/TypedWorker.spec.ts');
+main();
+async function main() {
+  const [url, server] = await startTestServer();
+  await testPage(url);
+  server.close();
+}

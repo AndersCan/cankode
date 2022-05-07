@@ -34,7 +34,7 @@ class Describe {
     console.groupEnd();
   }
 
-  async it(testName: string, callback: () => void): Promise<void> {
+  it(testName: string, callback: () => void) {
     // TODO - pass test context + handle exception
     try {
       callback();
@@ -46,10 +46,8 @@ class Describe {
       //@ts-expect-error -- `err: any` getting formated away
       const lineError = err.stack.split(/\n/)[2];
       const errorMessage = `❌ ${testName} ${lineError}`;
-      console.log(errorMessage);
+      console.error(errorMessage);
       ERRORS.push(errorMessage);
     }
   }
 }
-
-// const map = new Map<string[], ((d: Describe) => void)[]>();
