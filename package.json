@@ -1,0 +1,23 @@
+{
+  "name": "packages",
+  "version": "0.0.0",
+  "description": "my packages",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "test": "echo ops"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndersCan/packages.git"
+  },
+  "author": "AndersCan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndersCan/packages/issues"
+  },
+  "homepage": "https://github.com/AndersCan/packages#readme",
+  "volta": {
+    "node": "14.19.2"
+  }
+}

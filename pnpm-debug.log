@@ -1,0 +1,22 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+    "packageId": "/Users/n641756/anderscan-git/packages",
+    "wanted": {
+      "pnpm": ">=7"
+    },
+    "current": {
+      "node": "v14.18.0",
+      "pnpm": "6.25.0"
+    },
+    "err": {
+      "name": "pnpm",
+      "message": "Unsupported engine for /Users/n641756/anderscan-git/packages: wanted: {\"pnpm\":\">=7\"} (current: {\"node\":\"v14.18.0\",\"pnpm\":\"6.25.0\"})",
+      "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+      "stack": "pnpm: Unsupported engine for /Users/n641756/anderscan-git/packages: wanted: {\"pnpm\":\">=7\"} (current: {\"node\":\"v14.18.0\",\"pnpm\":\"6.25.0\"})\n    at checkEngine (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:41270:16)\n    at checkPackage (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43358:104)\n    at packageIsInstallable (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43382:61)\n    at tryReadProjectManifest (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43700:55)\n    at async handler (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:119866:48)\n    at async /Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:184995:21\n    at async run (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:184969:34)\n    at async runPnpm (/Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:185180:5)\n    at async /Users/n641756/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:185172:7"
+    }
+  }
+}

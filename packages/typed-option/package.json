@@ -8,7 +8,7 @@
     "lint": "prettier \"./{src,test}/**.ts\" --write",
     "build": "tsc -p .",
     "build:test": "tsc --noEmit -p ./test",
-    "test": "jest"
+    "test": "tsm ./test.ts"
   },
   "keywords": [
     "option",
@@ -19,16 +19,9 @@
   "author": "anderscan",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-typescript": "^7.7.2",
-    "@types/jest": "^24.0.23",
-    "babel-jest": "^24.9.0",
-    "codecov": "^3.0.2",
-    "fast-check": "^1.1.3",
-    "jest": "^24.9.0",
-    "prettier": "^1.12.1",
-    "typescript": "^3.7.2"
+    "fast-check": "^2.25.0",
+    "tsm": "^2.2.1",
+    "typed-tester": "workspace:*"
   },
   "repository": "AndersCan/typed-option"
 }

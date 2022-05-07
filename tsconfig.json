@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "packages/"
+  ]
+}

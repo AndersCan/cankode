@@ -11,7 +11,8 @@
     "commit": "npx git-cz",
     "prepublishOnly": "npm run build",
     "build": "rimraf lib/ && rollup --config",
-    "test": "karma start karma.conf.js",
+    "test": "echo 'typed-web-worker tests :-|' ",
+    "real-test": "karma start karma.conf.js",
     "test:headless": "HEADLESS=true karma start karma.conf.js",
     "test:dev": "HEADLESS=true DEV=true npm run test:headless",
     "lint": "prettier \"./{src,test}/**.ts\" --write"
@@ -48,7 +49,6 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-typescript2": "^0.29.0",
     "typescript": "^4.0.3"
   },
