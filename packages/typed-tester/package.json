@@ -2,7 +2,6 @@
   "name": "typed-tester",
   "version": "0.0.0",
   "description": "test-utils",
-  "main": "index.js",
   "exports":{
     "import": "./index.ts"
   },
@@ -10,13 +9,12 @@
     "node": "14.19.2"
   },
   "scripts": {
-    "test": "echo 'typed-tester test :-|'"
+    "test": "echo 'whos tests the test-runner? :-|'"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/glob-stream": "^6.1.1",
-    "glob-stream": "^7.0.0",
-    "tsm": "^2.2.1"
+    "glob-stream": "^7.0.0"
   }
 }

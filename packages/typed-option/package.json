@@ -8,7 +8,7 @@
     "lint": "prettier \"./{src,test}/**.ts\" --write",
     "build": "tsc -p .",
     "build:test": "tsc --noEmit -p ./test",
-    "test": "tsm ./test.ts"
+    "test": "tsm ./run-tests.ts"
   },
   "keywords": [
     "option",

@@ -14,7 +14,7 @@ describe('Option - basic tests', function (test) {
   test.describe('Some', (test) => {
     test.it('isSome === true', function () {
       const some = positiveNumber(1);
-      assert(some.isSome() === false);
+      assert(some.isSome() === true);
     });
     test.it('isNone === false', function () {
       const some = positiveNumber(1);
