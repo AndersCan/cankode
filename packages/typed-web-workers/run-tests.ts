@@ -4,6 +4,9 @@ import { testPage } from 'typed-tester/browser-runner';
 main();
 async function main() {
   const [url, server] = await startTestServer();
-  await testPage(url);
-  server.close();
+  try {
+    await testPage(url);
+  } finally {
+    server.close();
+  }
 }

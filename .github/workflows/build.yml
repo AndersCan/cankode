@@ -2,26 +2,53 @@ name: CI
 
 on: [push, pull_request]
 
+env:
+  CI: true
+  PNPM_CACHE_FOLDER: .pnpm-store
+  HUSKY: 0 # Bypass husky commit hook for CI
+
 jobs:
-  build:
-
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node_version: [10, 12, 14]
-        os: [ubuntu-latest]
-
+  lint-and-test:
+    timeout-minutes: 5
+    name: 'lint and test'
+    runs-on: [ubuntu-latest]
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v1
-      with:
-        version: ${{ matrix.node_version }}
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
 
-    - uses: actions/checkout@v1
-    - name: npm install, build and test
-      run: |
-        npm install
-        npm run build
-        npm run test:headless
+      - name: 'Cache pnpm modules'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.PNPM_CACHE_FOLDER }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: 'Install pnpm 7'
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.x
+
+      - name: 'Install Node.js 14'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'pnpm'
+
+      - name: 'Configure pnpm'
+        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
+      - name: 'Install dependencies'
+        run: | 
+          pnpm --frozen-lockfile install
+          cd packages/typed-tester && pnpm playwright install-deps
+
+      # - name: 'Build'
+      #   run: pnpm run build --filter ./libraries/*
+
+      # Lint and test
+      - name: '~Lint and~ test'
+        run: |
+          pnpm test --recursive
