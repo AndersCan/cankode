@@ -19,5 +19,8 @@
   "homepage": "https://github.com/AndersCan/packages#readme",
   "volta": {
     "node": "14.19.2"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.22.0"
   }
 }
