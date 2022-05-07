@@ -17,6 +17,7 @@
   "license": "MIT",
   "repository": "https://github.com/AndersCan/packages/tree/main/packages/typed-web-workers",
   "devDependencies": {
+    "fast-check": "^2.25.0",
     "tsm": "^2.2.1",
     "typed-tester": "workspace:*"
   }

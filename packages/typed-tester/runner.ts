@@ -27,12 +27,21 @@ export async function getHtmlFile(globPattern: string | string[]) {
   }
   // console.log(scripts);
 
-  const file = await build({ entryPoints: files, bundle: true, write: false });
+  const file = await build({
+    entryPoints: files,
+    bundle: true,
+    outdir: './not-in-use/',
+    write: false
+  });
   const out = file.outputFiles;
   console.log(out.length, 'should be 1');
-  const buildOutput = out[0];
+  const scriptTags = file.outputFiles
+    .map(build => {
+      return `<script>${build.text}</script>`;
+    })
+    .join(' ');
 
-  return htmlBlock(buildOutput.text);
+  return htmlBlock(scriptTags);
 }
 function getEntry_UNSAFE(whatever: any): gs.Entry {
   return whatever;
@@ -50,9 +59,7 @@ function htmlBlock(scriptContent: string) {
   <body>
     
   </body>
-  <script>
     ${scriptContent}
-  </script>
   </html>
   `;
 }

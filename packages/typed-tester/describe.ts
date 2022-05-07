@@ -1,7 +1,3 @@
-import PQueue from 'p-queue';
-
-const queue = new PQueue({ concurrency: 1 });
-
 const ERRORS: string[] = [];
 /**
  * Easy to make, but looks a little awkward in use, but:
@@ -19,8 +15,7 @@ if (typeof process === 'object') {
   });
 }
 
-export async function describe(name: string, callback: (d: Describe) => void) {
-  await queue.onIdle();
+export function describe(name: string, callback: (d: Describe) => void) {
   console.group(name);
   callback(new Describe([name]));
   console.groupEnd();
@@ -28,49 +23,32 @@ export async function describe(name: string, callback: (d: Describe) => void) {
 class Describe {
   parent;
   path;
-  beforeEachCallbacks: Function[];
   constructor(path: string[], parent?: Describe | undefined) {
     this.path = path;
     this.parent = parent;
-    this.beforeEachCallbacks = [];
   }
 
-  // hooks
-  beforeEach(callback: () => Promise<any> | void) {
-    this.beforeEachCallbacks.push(callback);
-  }
-
-  async describe(innerTestName: string, callback: (hmm: Describe) => void) {
-    await queue.onIdle();
+  describe(innerTestName: string, callback: (hmm: Describe) => void) {
     console.group(innerTestName);
     callback(new Describe([...this.path, innerTestName], this));
     console.groupEnd();
   }
 
   async it(testName: string, callback: () => void): Promise<void> {
-    await queue.onIdle();
-    // todo: wait for previous `it` run to be done
-    return queue.add(async () => {
-      // run beforeEach callback
-      for (const beforeEach of this.beforeEachCallbacks) {
-        await beforeEach();
+    // TODO - pass test context + handle exception
+    try {
+      callback();
+      console.log('✅', testName);
+    } catch (err) {
+      if (typeof process === 'object') {
+        process.exitCode = 1;
       }
-
-      // TODO - pass test context + handle exception
-      try {
-        callback();
-        console.log('✅', testName);
-      } catch (err) {
-        if (typeof process === 'object') {
-          process.exitCode = 1;
-        }
-        //@ts-expect-error -- `err: any` getting formated away
-        const lineError = err.stack.split(/\n/)[2];
-        const errorMessage = `❌ ${testName} ${lineError}`;
-        console.log(errorMessage);
-        ERRORS.push(errorMessage);
-      }
-    });
+      //@ts-expect-error -- `err: any` getting formated away
+      const lineError = err.stack.split(/\n/)[2];
+      const errorMessage = `❌ ${testName} ${lineError}`;
+      console.log(errorMessage);
+      ERRORS.push(errorMessage);
+    }
   }
 }
 

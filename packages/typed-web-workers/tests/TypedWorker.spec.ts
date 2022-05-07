@@ -119,11 +119,10 @@ describe('TypedWorker', test => {
       );
     });
     describe('correct order', test => {
-      let multiReponse: ITypedWorker<number, number>;
       const setup = () => {
         let result: number[] = [];
         return new Promise<number[]>(resolve => {
-          multiReponse = createWorker({
+          const multiReponse: ITypedWorker<number, number> = createWorker({
             workerFunction: ({ input, callback }) => {
               callback(input);
             },
@@ -146,7 +145,6 @@ describe('TypedWorker', test => {
       });
 
       test.it('order is correct', async () => {
-        console.log('order is correct');
         const result = await setup();
         assert(result.length === 3);
         assert(result[0] === 1);

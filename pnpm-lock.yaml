@@ -33,9 +33,11 @@ importers:
 
   packages/typed-web-workers:
     specifiers:
+      fast-check: ^2.25.0
       tsm: ^2.2.1
       typed-tester: workspace:*
     devDependencies:
+      fast-check: 2.25.0
       tsm: 2.2.1
       typed-tester: link:../typed-tester
 

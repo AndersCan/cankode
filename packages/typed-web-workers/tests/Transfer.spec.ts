@@ -1,109 +1,81 @@
-import {
-  createWorker,
-  ITypedWorker
-} from '../src/index'
+import { createWorker, ITypedWorker } from '../src/index';
+import { describe, assert } from 'typed-tester';
 
-describe('TypedWorker - transfer', function() {
-  describe('can transfer ownership from UI to worker', () => {
-    let workerContextBytelength: number
-    let uiContextByteLength: number
-    beforeEach(function(done) {
-      const myUInt8Array = new Uint8Array(
-        1024 * 1024 * 8
-      ) // 8MB
-      for (
-        let i = 0;
-        i < myUInt8Array.length;
-        ++i
-      ) {
-        myUInt8Array[i] = i
+const setup = () => {
+  return new Promise<{
+    workerContextBytelength: number;
+    uiContextByteLength: number;
+  }>(resolve => {
+    let uiContextByteLength = 0;
+
+    const transferWorker: ITypedWorker<ArrayBuffer, number> = createWorker({
+      workerFunction: ({ input, callback }) => callback(input.byteLength),
+      onMessage: workerContextBytelength => {
+        resolve({
+          workerContextBytelength,
+          uiContextByteLength
+        });
       }
-      const transferWorker: ITypedWorker<
-        ArrayBuffer,
-        number
-      > = createWorker({
-        workerFunction: ({
-          input,
-          callback
-        }) => callback(input.byteLength),
-        onMessage: output => {
-          workerContextBytelength = output
-          done()
+    });
+
+    const myUInt8Array = new Uint8Array(1024 * 1024 * 8); // 8MB
+    for (let i = 0; i < myUInt8Array.length; ++i) {
+      myUInt8Array[i] = i;
+    }
+    uiContextByteLength = myUInt8Array.byteLength;
+    transferWorker.postMessage(myUInt8Array.buffer, [myUInt8Array.buffer]);
+    uiContextByteLength = myUInt8Array.byteLength;
+  });
+};
+
+const setupWorker2UI = () => {
+  return new Promise<{
+    uiContextByteLength: number;
+  }>(resolve => {
+    let uiContextByteLength = 0;
+
+    const transferWorker: ITypedWorker<any, ArrayBuffer> = createWorker({
+      workerFunction: ({ input, callback }) => {
+        const myUInt8Array = new Uint8Array(1024 * 1024 * 8); // 8MB
+        for (let i = 0; i < myUInt8Array.length; ++i) {
+          myUInt8Array[i] = i;
         }
-      })
-      transferWorker.postMessage(
-        myUInt8Array.buffer,
-        [myUInt8Array.buffer]
-      )
-      uiContextByteLength =
-        myUInt8Array.byteLength
-    })
+        callback(myUInt8Array.buffer, [myUInt8Array.buffer]);
+        // assert(
+        //   myUInt8Array.length === 0,
+        //   'array transfered away from Worker to UI'
+        // );
+      },
+      onMessage: buffer => {
+        resolve({
+          uiContextByteLength: buffer.byteLength
+        });
+      }
+    });
+    transferWorker.postMessage(0);
+  });
+};
 
-    it('UI context byteLength should be zero', function() {
-      expect(
-        uiContextByteLength
-      ).toEqual(0)
-    })
+describe('TypedWorker - transfer', test => {
+  test.describe('can transfer ownership from UI to worker', test => {
+    test.it('UI context byteLength should be zero', async () => {
+      const result = await setup();
+      assert(result.uiContextByteLength === 0);
+    });
 
-    it('Worker context byteLength should be greater than zero', function() {
-      expect(
-        workerContextBytelength
-      ).toBeGreaterThan(0)
-    })
-  })
+    test.it(
+      'Worker context byteLength should be greater than zero',
+      async () => {
+        const result = await setup();
+        assert(result.workerContextBytelength > 0);
+      }
+    );
+  });
 
-  describe('can transfer ownership from worker to ui', () => {
-    let workerContextByteLength = 999
-    let uiContextByteLength = 0
-    beforeEach(function(done) {
-      const transferWorker: ITypedWorker<
-        number,
-        ArrayBuffer | number
-      > = createWorker({
-        workerFunction: ({
-          input,
-          callback
-        }) => {
-          const myUInt8Array = new Uint8Array(
-            1024 * 1024 * 8
-          ) // 8MB
-          for (
-            let i = 0;
-            i < myUInt8Array.length;
-            ++i
-          ) {
-            myUInt8Array[i] = i
-          }
-          callback(myUInt8Array.buffer, [
-            myUInt8Array.buffer
-          ])
-          callback(myUInt8Array.byteLength)
-        },
-        onMessage: output => {
-          if (
-            typeof output === 'number'
-          ) {
-            workerContextByteLength = output
-            done()
-          } else {
-            uiContextByteLength =
-              output.byteLength
-          }
-        }
-      })
-      transferWorker.postMessage(1)
-    })
-
-    it('UI context byteLength should be greater than zero', function() {
-      expect(
-        uiContextByteLength
-      ).toBeGreaterThan(0)
-    })
-
-    it('Worker context byteLength should be zero', function() {
-      expect(
-        workerContextByteLength
-      ).toBe(0)
-    })
-  })
-})
+  test.describe('can transfer ownership from worker to ui', () => {
+    test.it('UI context byteLength should be greater than zero', async () => {
+      const result = await setupWorker2UI();
+      assert(result.uiContextByteLength > 0);
+    });
+  });
+});

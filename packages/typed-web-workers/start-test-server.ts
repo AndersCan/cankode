@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 import { getHtmlFile } from 'typed-tester/runner';
 
-const html = getHtmlFile('./**/TypedWorker.spec.ts');
+const html = getHtmlFile('./**/*.spec.ts');
 const hostname = '127.0.0.1';
 const port = 3000;
 
