@@ -1,146 +1,101 @@
-import {
-  createWorker,
-  ICreateWorkerProps
-} from '../../src/index'
+import { createWorker, ICreateWorkerProps } from '../../src/index';
+import { describe, assert } from 'typed-tester';
 
-declare const moment: any
-describe('importScript', function() {
-  describe('can import script', () => {
-    let result: string
+declare const moment: any;
 
-    const workerMomentProps: ICreateWorkerProps<
-      number,
-      string
-    > = {
-      workerFunction: ({
-        input,
-        callback
-      }) => {
-        callback(moment(input).format('YYYY'))
+const setup = () => {
+  return new Promise(resolve => {
+    const workerMomentProps: ICreateWorkerProps<number, string> = {
+      workerFunction: ({ input, callback }) => {
+        callback(moment(input).format('YYYY'));
       },
-      importScripts: [
-        'https://unpkg.com/moment@2.22.2/min/moment.min.js'
-      ]
-    }
-
-    beforeEach(function(done) {
-      try {
-        result = ''
-        const momentWorker = createWorker(
-          {
-            ...workerMomentProps,
-            onMessage: res => {
-              result = res
-              done()
-            }
-          }
-        )
-        momentWorker.postMessage(0)
-      } catch (e) {
-        console.log(e)
+      importScripts: ['https://unpkg.com/moment@2.22.2/min/moment.min.js']
+    };
+    const momentWorker = createWorker({
+      ...workerMomentProps,
+      onMessage: result => {
+        resolve(result);
       }
-    })
+    });
+    momentWorker.postMessage(0);
+  });
+};
 
-    it('returns the correct type', function() {
-      expect(result).toEqual(
-        jasmine.any(String)
-      )
-    })
+describe('importScript', test => {
+  test.describe('can import script', test => {
+    test.it('returns the correct type', async () => {
+      const result = await setup();
+      assert(typeof result === 'string');
+    });
 
-    it('returns the correct value', function() {
-      expect(result).toEqual('1970')
-    })
-  })
+    test.it('returns the correct value', async () => {
+      const result = await setup();
+      assert(result === '1970');
+    });
+  });
 
   describe('calls onError when given bad import', () => {
-    let result: string
-    const badImportURI =
-      'https://unpkg.com/something.that.gives.error.js'
-    const invalidImportProps: ICreateWorkerProps<
-      string,
-      string
-    > = {
-      workerFunction: ({
-        input,
-        callback
-      }) => {
-        callback(input)
+    let result: string;
+    const badImportURI = 'https://unpkg.com/something.that.gives.error.js';
+    const invalidImportProps: ICreateWorkerProps<string, string> = {
+      workerFunction: ({ input, callback }) => {
+        callback(input);
       },
       importScripts: [badImportURI]
-    }
+    };
 
-    const errorMessage = 'error called'
+    const errorMessage = 'error called';
 
-    beforeEach(done => {
-      result = ''
-      const badImportWorker = createWorker(
-        {
+    const setup = () => {
+      return new Promise(resolve => {
+        result = '';
+        const badImportWorker = createWorker({
           ...invalidImportProps,
           onMessage: res => {
-            throw 'should not be called'
+            throw 'should not be called';
           },
           onError: err => {
-            err.preventDefault()
-            result = errorMessage
-            done()
+            err.preventDefault();
+            resolve(errorMessage);
           }
-        }
-      )
+        });
 
-      badImportWorker.postMessage(
-        'fails'
-      )
-    })
+        badImportWorker.postMessage('fails');
+      });
+    };
 
-    it('calls onError', function() {
-      expect(result).toBe(errorMessage)
-    })
-  })
+    test.it('calls onError', async () => {
+      const result = await setup();
+      assert(result === errorMessage);
+    });
+  });
 
   describe('can import script in worker function', () => {
-    let result: string
-
-    const workerMomentProps: ICreateWorkerProps<
-      number,
-      string
-    > = {
-      workerFunction: ({
-        input,
-        callback
-      }) => {
-        if (
-          self['moment'] === undefined
-        ) {
-          importScripts(
-            'https://unpkg.com/moment@2.22.2/min/moment.min.js'
-          )
+    const workerMomentProps: ICreateWorkerProps<number, string> = {
+      workerFunction: ({ input, callback }) => {
+        if (self['moment'] === undefined) {
+          importScripts('https://unpkg.com/moment@2.22.2/min/moment.min.js');
         }
-        callback(moment(input).format('YYYY'))
+        callback(moment(input).format('YYYY'));
       }
-    }
+    };
 
-    beforeEach(function(done) {
-      result = ''
-      const momentWorker = createWorker(
-        {
+    const setup = () => {
+      return new Promise(resolve => {
+        const momentWorker = createWorker({
           ...workerMomentProps,
-          onMessage: res => {
-            result = res
-            done()
+          onMessage: result => {
+            resolve(result);
           }
-        }
-      )
-      momentWorker.postMessage(0)
-    })
+        });
+        momentWorker.postMessage(0);
+      });
+    };
 
-    it('returns the correct type', function() {
-      expect(result).toEqual(
-        jasmine.any(String)
-      )
-    })
-
-    it('returns the correct value', function() {
-      expect(result).toEqual('1970')
-    })
-  })
-})
+    test.it('returns the correct type', async () => {
+      const result = await setup();
+      assert(typeof result === 'string');
+      assert(result === '1970');
+    });
+  });
+});

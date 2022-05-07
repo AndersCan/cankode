@@ -1,4 +1,5 @@
 import gs from 'glob-stream';
+
 export async function runTests(globPattern: string | string[]) {
   const stream = gs(globPattern);
 
@@ -6,7 +7,8 @@ export async function runTests(globPattern: string | string[]) {
     const entry = getEntry_UNSAFE(file);
 
     const path = entry.path;
-    // TODO: Emit test file has been found and let someone else run it
+    // TODO: Just emit the test file path
+    // let something else run it
     import(path);
   }
 }

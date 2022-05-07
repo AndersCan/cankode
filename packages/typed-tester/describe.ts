@@ -1,4 +1,3 @@
-let somethingHasFailed = 0;
 const ERRORS: string[] = [];
 /**
  * Easy to make, but looks a little awkward in use, but:
@@ -7,12 +6,14 @@ const ERRORS: string[] = [];
  * 3. Clearly defined when a test will be run (ie `test.it`)
  * 4. Clearly defined when a test describe/block/group is created (ie `test.describe`)
  */
-process.addListener('beforeExit', () => {
-  if (ERRORS.length === 0) {
-    return;
-  }
-  console.error(ERRORS);
-});
+if (typeof process === 'object') {
+  process.addListener('beforeExit', () => {
+    if (ERRORS.length === 0) {
+      return;
+    }
+    console.error(ERRORS);
+  });
+}
 
 export function describe(name: string, callback: (d: Describe) => void) {
   console.group(name);
@@ -38,18 +39,15 @@ class Describe {
     try {
       callback();
       console.log('✅', testName);
-    } catch (err: any) {
-      if (process) {
+    } catch (err) {
+      if (typeof process === 'object') {
         process.exitCode = 1;
       }
+      //@ts-expect-error -- `err: any` getting formated away
       const lineError = err.stack.split(/\n/)[2];
       const errorMessage = `❌ ${testName} ${lineError}`;
-      console.log(errorMessage);
+      console.error(errorMessage);
       ERRORS.push(errorMessage);
     }
-
-    return this;
   }
 }
-
-// const map = new Map<string[], ((d: Describe) => void)[]>();

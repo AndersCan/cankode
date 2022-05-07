@@ -1,269 +1,220 @@
-import {
-  createWorker,
-  ITypedWorker
-} from '../src/index'
+import { createWorker, ITypedWorker } from '../src/index';
+import { describe, assert } from 'typed-tester';
 
-const range = (n: number) =>
-  Array.from(
-    { length: n },
-    (value, key) => key
-  )
+const range = (n: number) => Array.from({ length: n }, (value, key) => key);
 
-describe('TypedWorker', function() {
-  describe('basic message passing', () => {
-    let result: number
-
-    beforeEach(function(done) {
-      const numberWorker: ITypedWorker<
-        number,
-        number
-      > = createWorker({
-        workerFunction: ({
-          input,
-          callback
-        }) => callback(1000),
-        onMessage: output => {
-          result = output
-          done()
-        }
-      })
-      numberWorker.postMessage(1)
-    })
-
-    it('returns the correct type', function() {
-      expect(result).toEqual(
-        jasmine.any(Number)
-      )
-    })
-
-    it('returns the correct value', function() {
-      expect(result).toEqual(1000)
-    })
-  })
-
-  describe('simple callback with object', () => {
-    let objectWorker: ITypedWorker<
-      { a: number },
-      { b: number }
-    >
-    let result = {}
-    beforeEach(done => {
-      objectWorker = createWorker({
-        workerFunction: ({
-          input: { a },
-          callback
-        }) => {
-          callback({ b: a })
-        },
-        onMessage: (output: {
-          b: number
-        }) => {
-          result = output
-          done()
-        }
-      })
-      objectWorker.postMessage({
-        a: 10
-      })
-    })
-
-    it('simple object return', function() {
-      expect(result).toEqual({ b: 10 })
-    })
-  })
-
-  describe('multi-messages', () => {
-    describe('small message count', () => {
-      let msgCountDown = 10
-      let result = 0
-      const numberRangeSmall = range(10)
-
-      beforeEach(function(done) {
-        const numberWorker: ITypedWorker<
-          number,
-          number
-        > = createWorker({
-          workerFunction: ({
-            input,
-            callback
-          }) => callback(input),
+describe('TypedWorker', test => {
+  test.describe('basic message passing', test => {
+    const setup = () => {
+      return new Promise<number>(resolve => {
+        const numberWorker: ITypedWorker<number, number> = createWorker({
+          workerFunction: ({ input, callback }) => callback(1000),
           onMessage: output => {
-            result += output
-            msgCountDown--
-            if (msgCountDown === 0) {
-              done()
-            }
+            resolve(output);
           }
-        })
-        numberRangeSmall.forEach(n =>
-          numberWorker.postMessage(n)
-        )
-      })
+        });
+        numberWorker.postMessage(1);
+      });
+    };
 
-      it('returns correct result after adding numberRangeSmall', function() {
-        const expected = numberRangeSmall.reduce(
-          (c, p) => c + p
-        )
-        expect(result).toEqual(expected)
-      })
-    })
+    test.it('returns the correct type', async () => {
+      const result = await setup();
+      assert(typeof result === 'number');
+    });
 
-    describe('large message count', () => {
-      const numberRangeLarge = range(
-        10000
-      )
-      let result = 0
-      let msgCountDown =
-        numberRangeLarge.length
+    test.it('returns the correct value', async () => {
+      const result = await setup();
+      assert(result === 1000);
+    });
+  });
 
-      beforeEach(function(done) {
-        const numberWorker: ITypedWorker<
-          number,
-          number
-        > = createWorker({
-          workerFunction: ({
-            input,
-            callback
-          }) => callback(input),
-          onMessage: output => {
-            result += output
-            msgCountDown--
-            if (msgCountDown === 0) {
-              done()
-            }
-          }
-        })
-        numberRangeLarge.forEach(n =>
-          numberWorker.postMessage(n)
-        )
-      }, 5000)
-
-      it('returns correct result after adding numberRangeLarge', function() {
-        const expected = numberRangeLarge.reduce(
-          (c, p) => c + p
-        )
-        expect(result).toEqual(expected)
-      })
-    })
-    describe('correct order', () => {
-      let multiReponse: ITypedWorker<
-        number,
-        number
-      >
-      let result: number[] = []
-      beforeEach(done => {
-        result = []
-        multiReponse = createWorker({
-          workerFunction: ({
-            input,
-            callback
-          }) => {
-            callback(input)
+  describe('simple callback with object', test => {
+    let objectWorker: ITypedWorker<{ a: number }, { b: number }>;
+    const setup = () => {
+      return new Promise<any>(resolve => {
+        objectWorker = createWorker({
+          workerFunction: ({ input: { a }, callback }) => {
+            callback({ b: a });
           },
-          onMessage: (
-            output: number
-          ) => {
-            result.push(output)
-            if (output === 3) {
-              done()
-            }
+          onMessage: (output: { b: number }) => {
+            resolve(output);
           }
-        })
-        multiReponse.postMessage(1)
-        multiReponse.postMessage(2)
-        multiReponse.postMessage(3)
-      })
+        });
+        objectWorker.postMessage({
+          a: 10
+        });
+      });
+    };
 
-      it('correct length', function() {
-        expect(result.length).toEqual(3)
-      })
+    test.it('simple object return', async () => {
+      const result = await setup();
+      assert(typeof result === 'object');
+      assert(typeof result.b === 'number');
+      assert(result.b === 10);
+    });
+  });
 
-      it('order is correct', function() {
-        expect(result).toEqual([
-          1,
-          2,
-          3
-        ])
-      })
-    })
-  })
+  describe('multi-messages', test => {
+    describe('small message count', async () => {
+      let msgCountDown = 10;
 
-  describe('handles large input', () => {
-    let result
-    beforeEach(function(done) {
-      const numberWorker: ITypedWorker<
-        number[],
-        number[]
-      > = createWorker({
-        workerFunction: ({
-          input,
-          callback
-        }) => callback(input),
-        onMessage: output => {
-          result = output.reduce(
-            (c, p) => c + p
-          )
-          done()
+      const numberRangeSmall = range(10);
+
+      const setup = () => {
+        let result = 0;
+        return new Promise<number>(resolve => {
+          const numberWorker: ITypedWorker<number, number> = createWorker({
+            workerFunction: ({ input, callback }) => callback(input),
+            onMessage: output => {
+              result += output;
+              msgCountDown--;
+              if (msgCountDown === 0) {
+                resolve(result);
+              }
+            }
+          });
+          numberRangeSmall.forEach(n => numberWorker.postMessage(n));
+        });
+      };
+
+      test.it(
+        'returns correct result after adding numberRangeSmall',
+        async () => {
+          const result = await setup();
+          const expected = numberRangeSmall.reduce((c, p) => c + p);
+          assert(result === expected);
         }
-      })
-      numberWorker.postMessage(
-        range(1000)
-      )
-    })
+      );
+    });
 
-    it('returns the correct value', function() {
-      const expected = range(
-        1000
-      ).reduce((c, p) => c + p)
-      expect(result).toEqual(expected)
-    })
-  })
+    describe('large message count', test => {
+      const numberRangeLarge = range(10000);
 
-  describe('Termination', () => {
-    let msgCounter = 0
-    let numberWorker: ITypedWorker<
-      number,
-      number
-    >
+      let msgCountDown = numberRangeLarge.length;
+
+      const setup = () => {
+        let result = 0;
+        return new Promise<number>(resolve => {
+          const numberWorker: ITypedWorker<number, number> = createWorker({
+            workerFunction: ({ input, callback }) => callback(input),
+            onMessage: output => {
+              result += output;
+              msgCountDown--;
+              if (msgCountDown === 0) {
+                resolve(result);
+              }
+            }
+          });
+          numberRangeLarge.forEach(n => numberWorker.postMessage(n));
+        });
+      };
+
+      test.it(
+        'returns correct result after adding numberRangeLarge',
+        async () => {
+          const result = await setup();
+          const expected = numberRangeLarge.reduce((c, p) => c + p);
+          assert(result === expected);
+        }
+      );
+    });
+    describe('correct order', test => {
+      const setup = () => {
+        let result: number[] = [];
+        return new Promise<number[]>(resolve => {
+          const multiReponse: ITypedWorker<number, number> = createWorker({
+            workerFunction: ({ input, callback }) => {
+              callback(input);
+            },
+            onMessage: (output: number) => {
+              result.push(output);
+              if (output === 3) {
+                resolve(result);
+              }
+            }
+          });
+          multiReponse.postMessage(1);
+          multiReponse.postMessage(2);
+          multiReponse.postMessage(3);
+        });
+      };
+
+      test.it('correct length', async () => {
+        const result = await setup();
+        assert(result.length === 3);
+      });
+
+      test.it('order is correct', async () => {
+        const result = await setup();
+        assert(result.length === 3);
+        assert(result[0] === 1);
+        assert(result[1] === 2);
+        assert(result[2] === 3);
+      });
+    });
+  });
+
+  describe('handles large input', async () => {
+    let result: number;
+    const setup = () => {
+      return new Promise<number>(resolve => {
+        const numberWorker: ITypedWorker<number[], number[]> = createWorker({
+          workerFunction: ({ input, callback }) => callback(input),
+          onMessage: output => {
+            result = output.reduce((c, p) => c + p);
+            resolve(result);
+          }
+        });
+        numberWorker.postMessage(range(1000));
+      });
+    };
+
+    test.it('returns the correct value', async () => {
+      const result = await setup();
+      const expected = range(1000).reduce((c, p) => c + p);
+      assert(result === expected);
+    });
+  });
+
+  describe('Termination', test => {
+    let msgCounter = 0;
+    let numberWorker: ITypedWorker<number, number>;
     numberWorker = createWorker({
       workerFunction: () => {
-        msgCounter += 1
+        msgCounter += 1;
       }
-    })
+    });
 
-    it('stops handling messages', function() {
-      numberWorker.terminate()
-      numberWorker.postMessage(1)
-      expect(msgCounter).toEqual(0)
-    })
-  })
+    test.it('stops handling messages', async () => {
+      numberWorker.terminate();
+      numberWorker.postMessage(1);
+      assert(msgCounter === 0);
+    });
+  });
 
-  describe('Termination', () => {
-    let msgCounter = 0
-    let numberWorker: ITypedWorker<
-      number,
-      number
-    >
-    beforeEach(done => {
-      numberWorker = createWorker({
-        workerFunction: ({
-          input,
-          callback
-        }) => {
-          callback(input)
-        },
-        onMessage: output => {
-          numberWorker.terminate()
-          msgCounter = output
-          setTimeout(done, 500)
-        }
-      })
-      numberWorker.postMessage(1)
-      numberWorker.postMessage(2)
-    })
+  describe('Termination', test => {
+    let msgCounter = 0;
+    let numberWorker: ITypedWorker<number, number>;
+    const setup = () => {
+      return new Promise<number>(resolve => {
+        numberWorker = createWorker({
+          workerFunction: ({ input, callback }) => {
+            callback(input);
+          },
+          onMessage: output => {
+            numberWorker.terminate();
+            msgCounter = output;
+            setTimeout(() => resolve(msgCounter), 500);
+          }
+        });
+        numberWorker.postMessage(1);
+        numberWorker.postMessage(2);
+      });
+    };
 
-    it('stops handling messages', function() {
-      expect(msgCounter).toEqual(1)
-    })
-  })
-})
+    test.it('stops handling messages', async () => {
+      const result = await setup();
+      assert(result === 1);
+    });
+  });
+});
