@@ -45,8 +45,8 @@ jobs:
           pnpm --frozen-lockfile install
           cd packages/typed-tester && pnpm playwright install-deps
 
-      # - name: 'Build'
-      #   run: pnpm run build --filter ./libraries/*
+      - name: 'Build'
+        run: pnpm run build --filter ./packages/*
 
       # Lint and test
       - name: '~Lint and~ test'
