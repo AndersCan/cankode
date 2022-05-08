@@ -10,6 +10,6 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "packages/"
+    "./"
   ]
 }

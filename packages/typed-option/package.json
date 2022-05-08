@@ -1,12 +1,13 @@
 {
   "name": "typed-option",
   "version": "3.2.0",
+  "type": "module",
   "description": "Typed option library",
   "main": "lib/index",
   "typings": "lib/index",
   "scripts": {
     "lint": "prettier \"./{src,test}/**.ts\" --write",
-    "build": "tsc -p .",
+    "build": "tsm ./builder.ts",
     "build:test": "tsc --noEmit -p ./test",
     "test": "tsm ./run-tests.ts"
   },
@@ -21,7 +22,9 @@
   "devDependencies": {
     "fast-check": "^2.25.0",
     "tsm": "^2.2.1",
-    "typed-tester": "workspace:*"
+    "typed-builder": "workspace:*",
+    "typed-tester": "workspace:*",
+    "typed-test-runner-node": "workspace:*"
   },
   "repository": "AndersCan/typed-option"
 }

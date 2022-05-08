@@ -1,3 +1,3 @@
-import { runTests } from 'typed-tester/node-runner';
+import { runTests } from 'typed-test-runner-node';
 
 runTests('./**/*.spec.ts');

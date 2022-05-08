@@ -1,9 +1,8 @@
-import { startTestServer } from 'typed-tester/start-test-server';
-import { testPage } from 'typed-tester/browser-runner';
+import { startTestServer, testPage } from 'typed-test-runner-browser';
 
 main();
 async function main() {
-  const [url, server] = await startTestServer();
+  const [url, server] = await startTestServer('./**/*.spec.ts');
   try {
     await testPage(url);
   } finally {
