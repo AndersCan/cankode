@@ -43,7 +43,7 @@ jobs:
       - name: 'Install dependencies'
         run: | 
           pnpm --frozen-lockfile install
-          cd packages/typed-tester && pnpm playwright install-deps
+          cd packages/typed-test-runner-browser && pnpm playwright install-deps
 
       - name: 'Build'
         run: pnpm run build --filter ./packages/*
