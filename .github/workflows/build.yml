@@ -40,13 +40,14 @@ jobs:
       - name: 'Configure pnpm'
         run: pnpm config set store-dir $PNPM_CACHE_FOLDER
 
-      - name: 'Install dependencies'
-        run: | 
-          pnpm --frozen-lockfile install
-          cd packages/typed-test-runner-browser && pnpm playwright install-deps
+      - name: 'Install pnpm dependencies'
+        run: pnpm --frozen-lockfile install
 
       - name: 'Build'
-        run: pnpm run build --filter ./packages/*
+        run: pnpm --filter ./packages/* build
+
+      - name: 'Install Playwright dependencies'
+        run: cd packages/typed-test-runner-browser && pnpm playwright install-deps
 
       # Lint and test
       - name: '~Lint and~ test'
