@@ -63,16 +63,12 @@ importers:
   packages/typed-tester:
     specifiers:
       '@types/glob-stream': ^6.1.1
-      esbuild: ^0.14.38
       glob-stream: ^7.0.0
-      playwright: ^1.21.1
       tsm: ^2.2.1
       typed-builder: workspace:*
     dependencies:
       '@types/glob-stream': 6.1.1
-      esbuild: 0.14.38
       glob-stream: 7.0.0
-      playwright: 1.21.1
       tsm: 2.2.1
       typed-builder: link:../typed-builder
 
