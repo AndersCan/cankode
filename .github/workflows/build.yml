@@ -44,12 +44,11 @@ jobs:
         run: pnpm --frozen-lockfile install
 
       - name: 'Build'
-        run: pnpm --filter ./packages/* build
+        run: pnpm build
 
       - name: 'Install Playwright dependencies'
         run: cd packages/typed-test-runner-browser && pnpm playwright install-deps
 
       # Lint and test
       - name: '~Lint and~ test'
-        run: |
-          pnpm test --recursive
+        run: pnpm test
