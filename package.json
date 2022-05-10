@@ -5,18 +5,19 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "echo ops"
+    "build": "pnpm --recursive run build",
+    "test": "pnpm --recursive run test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndersCan/packages.git"
+    "url": "git+https://github.com/AndersCan/typed.git"
   },
   "author": "AndersCan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AndersCan/packages/issues"
+    "url": "https://github.com/AndersCan/typed/issues"
   },
-  "homepage": "https://github.com/AndersCan/packages#readme",
+  "homepage": "https://github.com/AndersCan/typed#readme",
   "volta": {
     "node": "14.19.2"
   },

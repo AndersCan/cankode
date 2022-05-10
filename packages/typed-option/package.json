@@ -3,8 +3,10 @@
   "version": "3.2.0",
   "type": "module",
   "description": "Typed option library",
-  "main": "lib/index",
-  "typings": "lib/index",
+  "types": "./build/index.d.ts",
+  "exports": {
+    ".": "./build/index.js"
+  },
   "scripts": {
     "lint": "prettier \"./{src,test}/**.ts\" --write",
     "build": "tsm ./builder.ts",
@@ -24,7 +26,8 @@
     "tsm": "^2.2.1",
     "typed-builder": "workspace:*",
     "typed-tester": "workspace:*",
-    "typed-test-runner-node": "workspace:*"
+    "typed-test-runner-node": "workspace:*",
+    "typed-test-runner-browser": "workspace:*"
   },
   "repository": "AndersCan/typed-option"
 }

@@ -6,7 +6,7 @@ export function startTestServer(globPattern: string | string[]) {
   return new Promise<[string, Server]>(resolve => {
     const htmlPromise = getHtmlFile(globPattern);
     const hostname = '127.0.0.1';
-    const port = 3000;
+    const port = 0;
 
     const server = createServer((req, res) => {
       res.statusCode = 200;
@@ -15,8 +15,15 @@ export function startTestServer(globPattern: string | string[]) {
     });
 
     server.listen(port, hostname, () => {
-      console.log(`Server running at http://${hostname}:${port}/`);
-      resolve([`http://${hostname}:${port}/`, server]);
+      const address = server.address()
+
+      if (address === null ||typeof address === "string") {
+        throw new Error("Server address is a string :/")
+      }
+
+      const serverAddress = `http://${address.address}:${address.port}/`;
+      console.log("Server running at", serverAddress);
+      resolve([serverAddress, server]);
     });
   });
 }

@@ -8,7 +8,7 @@
     ".": "./build/index.js"
   },
   "scripts": {
-    "build": "rimraf build/ && tsm builder.ts",
+    "build": "tsm builder.ts",
     "test": "tsm ./run-tests.ts"
   },
   "keywords": [
@@ -18,7 +18,7 @@
   ],
   "author": "anderscan",
   "license": "MIT",
-  "repository": "https://github.com/AndersCan/packages/tree/main/packages/typed-web-workers",
+  "repository": "https://github.com/AndersCan/typed/tree/main/packages/typed-web-workers",
   "devDependencies": {
     "fast-check": "^2.25.0",
     "tsm": "^2.2.1",
