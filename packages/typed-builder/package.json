@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "echo ':-|'",
-    "build": "tsm actually-build.ts & tsc -p .",
+    "build": "tsm --unhandled-rejections=strict actually-build.ts & tsc -p .",
     "tsc": "tsc -p . --declaration --emitDeclarationOnly"
   },
   "author": "",

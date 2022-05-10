@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "echo 'whos tests the test-runner? :-|'",
-    "build": "tsm ./builder.ts"
+    "build": "tsm --unhandled-rejections=strict ./builder.ts"
   },
   "author": "",
   "license": "ISC",

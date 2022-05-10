@@ -9,9 +9,9 @@
   },
   "scripts": {
     "lint": "prettier \"./{src,test}/**.ts\" --write",
-    "build": "tsm ./builder.ts",
+    "build": "tsm --unhandled-rejections=strict ./builder.ts",
     "build:test": "tsc --noEmit -p ./test",
-    "test": "tsm ./run-tests.ts"
+    "test": "tsm --unhandled-rejections=strict ./run-tests.ts"
   },
   "keywords": [
     "option",

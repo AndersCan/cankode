@@ -8,8 +8,8 @@
     ".": "./build/index.js"
   },
   "scripts": {
-    "build": "tsm builder.ts",
-    "test": "tsm ./run-tests.ts"
+    "build": "tsm --unhandled-rejections=strict builder.ts",
+    "test": "tsm --unhandled-rejections=strict ./run-tests.ts"
   },
   "keywords": [
     "web",
