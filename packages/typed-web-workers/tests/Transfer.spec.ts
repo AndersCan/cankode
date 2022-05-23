@@ -1,21 +1,21 @@
 import { createWorker, ITypedWorker } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const setup = () => {
   return new Promise<{
     workerContextBytelength: number;
     uiContextByteLength: number;
-  }>(resolve => {
+  }>((resolve) => {
     let uiContextByteLength = 0;
 
     const transferWorker: ITypedWorker<ArrayBuffer, number> = createWorker({
       workerFunction: ({ input, callback }) => callback(input.byteLength),
-      onMessage: workerContextBytelength => {
+      onMessage: (workerContextBytelength) => {
         resolve({
           workerContextBytelength,
-          uiContextByteLength
+          uiContextByteLength,
         });
-      }
+      },
     });
 
     const myUInt8Array = new Uint8Array(1024 * 1024 * 8); // 8MB
@@ -31,7 +31,7 @@ const setup = () => {
 const setupWorker2UI = () => {
   return new Promise<{
     uiContextByteLength: number;
-  }>(resolve => {
+  }>((resolve) => {
     let uiContextByteLength = 0;
 
     const transferWorker: ITypedWorker<any, ArrayBuffer> = createWorker({
@@ -46,18 +46,18 @@ const setupWorker2UI = () => {
         //   'array transfered away from Worker to UI'
         // );
       },
-      onMessage: buffer => {
+      onMessage: (buffer) => {
         resolve({
-          uiContextByteLength: buffer.byteLength
+          uiContextByteLength: buffer.byteLength,
         });
-      }
+      },
     });
     transferWorker.postMessage(0);
   });
 };
 
-describe('TypedWorker - transfer', test => {
-  test.describe('can transfer ownership from UI to worker', test => {
+block('TypedWorker - transfer', (test) => {
+  test.describe('can transfer ownership from UI to worker', (test) => {
     test.it('UI context byteLength should be zero', async () => {
       const result = await setup();
       assert(result.uiContextByteLength === 0);

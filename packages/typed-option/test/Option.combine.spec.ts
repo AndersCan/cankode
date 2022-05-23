@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const parseIntOption = (v: string): Option<number> => {
   const result = Number.parseInt(v);
@@ -10,7 +10,7 @@ const parseIntOption = (v: string): Option<number> => {
   }
 };
 
-describe('Option - combine', function (test) {
+block('Option - combine', function (test) {
   test.it('Some - returns correct string', function () {
     const somes: Option<string>[] = [Option.from('A'), Option.from('B')];
     const result: Option<string> = Option.combine((a, b) => `${a}${b}`)(

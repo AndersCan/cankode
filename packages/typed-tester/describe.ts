@@ -1,4 +1,4 @@
-const ERRORS: string[] = [];
+import { getEmitter } from 'typed-test-event-bus';
 /**
  * Easy to make, but looks a little awkward in use, but:
  * 1. Easy to write
@@ -6,19 +6,24 @@ const ERRORS: string[] = [];
  * 3. Clearly defined when a test will be run (ie `test.it`)
  * 4. Clearly defined when a test describe/block/group is created (ie `test.describe`)
  */
-if (typeof process === 'object') {
-  process.addListener('beforeExit', () => {
-    if (ERRORS.length === 0) {
-      return;
-    }
-    console.error(ERRORS);
-  });
-}
 
-export function describe(name: string, callback: (d: Describe) => void) {
-  console.group(name);
+export function block(name: string, callback: (d: Describe) => void) {
+  const blockId = `${name}`;
+  getEmitter().emit('block', {
+    type: 'block',
+    status: 'starting',
+    blockId,
+    meta: { broadcasted: false },
+  });
+
   callback(new Describe([name]));
-  console.groupEnd();
+
+  getEmitter().emit('block', {
+    type: 'block',
+    status: 'done',
+    blockId,
+    meta: { broadcasted: false },
+  });
 }
 class Describe {
   parent;
@@ -29,25 +34,65 @@ class Describe {
   }
 
   describe(innerTestName: string, callback: (hmm: Describe) => void) {
-    console.group(innerTestName);
+    getEmitter().emit('single_describe', {
+      type: 'single_describe',
+      status: 'start',
+      path: this.path,
+      describeId: innerTestName,
+      blockId: this.path[0],
+      meta: {
+        broadcasted: false,
+      },
+    });
+
     callback(new Describe([...this.path, innerTestName], this));
-    console.groupEnd();
+
+    getEmitter().emit('single_describe', {
+      type: 'single_describe',
+      status: 'done',
+      path: this.path,
+      describeId: innerTestName,
+      blockId: this.path[0],
+      meta: {
+        broadcasted: false,
+      },
+    });
   }
 
   it(testName: string, callback: () => void) {
-    // TODO - pass test context + handle exception
+    // TODO - pass/create test context
+    const now = Date.now();
     try {
       callback();
-      console.log('✅', testName);
-    } catch (err) {
-      if (typeof process === 'object') {
-        process.exitCode = 1;
+      const done = Date.now() - now;
+      getEmitter().emit('single_it', {
+        type: 'single_it',
+        status: 'success',
+        path: this.path,
+        testName: testName,
+        time: done,
+        meta: {
+          broadcasted: false,
+        },
+      });
+    } catch (err: unknown) {
+      const done = Date.now() - now;
+      let errorMessage = `❌ ${testName}`;
+
+      if (err instanceof Error && err.stack) {
+        const lineError = err.stack.split(/\n/)[2];
+        errorMessage = `❌ ${testName} ${lineError}`;
       }
-      //@ts-expect-error -- `err: any` getting formated away
-      const lineError = err.stack.split(/\n/)[2];
-      const errorMessage = `❌ ${testName} ${lineError}`;
-      console.error(errorMessage);
-      ERRORS.push(errorMessage);
+      getEmitter().emit('single_it', {
+        type: 'single_it',
+        status: 'fail',
+        path: this.path,
+        testName: testName,
+        time: done,
+        meta: {
+          broadcasted: false,
+        },
+      });
     }
   }
 }

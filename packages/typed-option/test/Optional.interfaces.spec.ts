@@ -1,5 +1,5 @@
 import { Option } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 interface Single {
   a?: string;
@@ -60,7 +60,7 @@ function stringOrUndefinedFn(a: string): string | undefined {
   return a;
 }
 
-describe('Option - working with Interfaces', function (test) {
+block('Option - working with Interfaces', function (test) {
   test.it(
     'Option.from called with `string | undefined` returns `string`',
     function () {

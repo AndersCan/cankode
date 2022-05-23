@@ -11,7 +11,8 @@
   },
   "scripts": {
     "test": "echo 'whos tests the test-runner? :-|'",
-    "build": "tsm --unhandled-rejections=strict ./builder.ts"
+    "build": "tsm --unhandled-rejections=strict ./builder.ts",
+    "dev": "tsm --unhandled-rejections=strict ./node-runner.ts"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,11 @@
     "@types/glob-stream": "^6.1.1",
     "glob-stream": "^7.0.0",
     "tsm": "^2.2.1",
-    "typed-builder": "workspace:*"
+    "typed-builder": "workspace:*",
+    "typed-tester": "workspace:*",
+    "typed-test-event-bus": "workspace:*"
+  },
+  "devDependencies": {
+    "typed-emitter": "^2.1.0"
   }
 }
