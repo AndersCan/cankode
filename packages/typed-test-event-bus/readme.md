@@ -6,9 +6,9 @@ Write tests to be run via `typed-test-runner-browser` and/or `typed-test-runner-
 
 
 ```ts
-import { block, assert } from 'typed-tester';
+import { describe, assert } from 'typed-tester';
 
-block('A', test => {
+describe('A', test => {
   test.describe('AA', test => {
     test.it('something is true', () => {
       assert(true === true);

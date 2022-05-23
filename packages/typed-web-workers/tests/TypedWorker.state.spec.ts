@@ -1,27 +1,27 @@
 import { createWorker, WorkerFunctionProps } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 import * as fc from 'fast-check';
 
 const results: Record<string, Function> = {};
 
 const internalWorker = createWorker({
   workerFunction,
-  onMessage: props => {
+  onMessage: (props) => {
     results[props.id](props.input);
-  }
+  },
 });
 
 const PromiseWorker = <T>(input: T) => {
   const id = Object.keys(results).length;
   internalWorker.postMessage({
     id,
-    input
+    input,
   });
-  return new Promise<typeof input>(resolve => (results[id] = resolve));
+  return new Promise<typeof input>((resolve) => (results[id] = resolve));
 };
 
-describe('TypedWorker with state', test => {
-  test.describe('basic state', test => {
+block('TypedWorker with state', (test) => {
+  test.describe('basic state', (test) => {
     test.it('can save [1, 2, 3]', async () => {
       let input = [1, 2, 3];
       const output = await PromiseWorker(input);
@@ -56,16 +56,16 @@ describe('TypedWorker with state', test => {
   });
 
   test.it('getState and setState have correct types', async () => {
-    await new Promise<void>(resolve => {
+    await new Promise<void>((resolve) => {
       const state = createWorker<number, number, number[]>({
         workerFunction: ({ input, callback, setState, getState }) => {
           setState([input]);
           callback(getState()[0]);
         },
-        onMessage: output => {
+        onMessage: (output) => {
           assert(typeof output === 'number');
           resolve();
-        }
+        },
       });
       state.postMessage(1);
     });
@@ -76,7 +76,7 @@ function workerFunction({
   setState,
   getState,
   input,
-  callback
+  callback,
 }: WorkerFunctionProps<any, any, any>) {
   setState(input);
   callback(getState());

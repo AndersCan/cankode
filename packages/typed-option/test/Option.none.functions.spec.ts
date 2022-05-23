@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const positiveNumber = (input: number): Option<number> => {
   if (input > 0) {
@@ -36,8 +36,8 @@ const getMiddleName = (person: Person): Option<string> => {
     return None;
   }
 };
-describe('Option - None - functions', function (test) {
-  describe('Map', function (test) {
+block('Option - None - functions', function (test) {
+  test.describe('Map', function (test) {
     test.it('map on None returns None ', function () {
       const none = positiveNumber(-1);
       const result = none.map((a) => '' + a);
@@ -53,7 +53,7 @@ describe('Option - None - functions', function (test) {
     });
   });
 
-  describe('flatMap', function (test) {
+  test.describe('flatMap', function (test) {
     test.it('return None for a non-existing person', function () {
       const none = findPerson('DoesNotExist');
       const result = none.flatMap(getMiddleName);
@@ -69,7 +69,7 @@ describe('Option - None - functions', function (test) {
     });
   });
 
-  describe('getOrElse', function (test) {
+  test.describe('getOrElse', function (test) {
     test.it("returns 'else' value", function () {
       const none = positiveNumber(-1);
       const result = none.getOrElse(() => 100);
@@ -87,7 +87,7 @@ describe('Option - None - functions', function (test) {
     });
   });
 
-  describe('orElse', function (test) {
+  test.describe('orElse', function (test) {
     test.it("returns 'orElse' value", function () {
       const none = positiveNumber(-1);
       const result = none.orElse(() => positiveNumber(1));

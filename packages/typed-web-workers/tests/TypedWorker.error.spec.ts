@@ -1,26 +1,26 @@
 import { createWorker, ITypedWorker } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const setup = (message: 'ok' | 'not ok') => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const tryWorker: ITypedWorker<string, string | Error> = createWorker({
       workerFunction: ({ input, callback }) => {
         try {
           if (input === 'ok') callback('ok');
           throw 'not ok';
-        } catch (e) {
+        } catch (e: any) {
           callback(e);
         }
       },
-      onMessage: output => {
+      onMessage: (output) => {
         resolve(output);
-      }
+      },
     });
     tryWorker.postMessage(message);
   });
 };
 
-describe('try/catch handling', test => {
+block('try/catch handling', (test) => {
   test.describe('try/catch - success', () => {
     test.it('returns the correct type', async () => {
       const result = await setup('ok');

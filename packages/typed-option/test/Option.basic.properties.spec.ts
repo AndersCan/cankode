@@ -1,9 +1,9 @@
 import * as fc from 'fast-check';
 import { Option } from '../src/index';
-import { describe } from 'typed-tester';
+import { block } from 'typed-tester';
 
 // Properties
-describe('Option - basic properties', (test) => {
+block('Option - basic properties', (test) => {
   const isUndefinedOrNull = (x: any) => x === undefined || x === null;
   test.it('Only undefined and null give None from "Option.from"', () => {
     fc.assert(

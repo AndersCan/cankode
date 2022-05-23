@@ -1,6 +1,6 @@
 import { Option, Some, None } from '../src/index';
 import { Predicates } from '../src/Predicates';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const positiveNumber = (input: number): Option<number> => {
   if (input > 0) {
@@ -10,7 +10,7 @@ const positiveNumber = (input: number): Option<number> => {
   }
 };
 
-describe('Option - basic tests', function (test) {
+block('Option - basic tests', function (test) {
   test.describe('Some', (test) => {
     test.it('isSome === true', function () {
       const some = positiveNumber(1);

@@ -1,5 +1,5 @@
 {
-  "name": "typed-tester",
+  "name": "typed-test-event-bus",
   "version": "0.0.0",
   "description": "test-utils",
   "type": "module",
@@ -10,16 +10,14 @@
     "node": "14.19.2"
   },
   "scripts": {
-    "test": "echo 'whos tests the test-runner? :-|'",
+    "test": "echo 'NO TESTS:-|'",
     "build": "tsm --unhandled-rejections=strict ./builder.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/glob-stream": "^6.1.1",
-    "glob-stream": "^7.0.0",
+    "mitt": "^3.0.0",
     "tsm": "^2.2.1",
-    "typed-builder": "workspace:*",
-    "typed-test-event-bus": "workspace:*"
+    "typed-builder": "workspace:*"
   }
 }

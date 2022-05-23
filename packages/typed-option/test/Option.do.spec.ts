@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const parseIntOption = (v: string): Option<number> => {
   const result = Number.parseInt(v);
@@ -10,7 +10,7 @@ const parseIntOption = (v: string): Option<number> => {
   }
 };
 
-describe('Option - do', function (test) {
+block('Option - do', function (test) {
   test.it('Some - do does not change content ', function () {
     const some: Option<number> = parseIntOption('1');
     some

@@ -38,6 +38,16 @@ importers:
       typed-test-runner-node: link:../typed-test-runner-node
       typed-tester: link:../typed-tester
 
+  packages/typed-test-event-bus:
+    specifiers:
+      mitt: ^3.0.0
+      tsm: ^2.2.1
+      typed-builder: workspace:*
+    dependencies:
+      mitt: 3.0.0
+      tsm: 2.2.1
+      typed-builder: link:../typed-builder
+
   packages/typed-test-runner-browser:
     specifiers:
       '@types/glob-stream': ^6.1.1
@@ -60,11 +70,18 @@ importers:
       glob-stream: ^7.0.0
       tsm: ^2.2.1
       typed-builder: workspace:*
+      typed-emitter: ^2.1.0
+      typed-test-event-bus: workspace:*
+      typed-tester: workspace:*
     dependencies:
       '@types/glob-stream': 6.1.1
       glob-stream: 7.0.0
       tsm: 2.2.1
       typed-builder: link:../typed-builder
+      typed-test-event-bus: link:../typed-test-event-bus
+      typed-tester: link:../typed-tester
+    devDependencies:
+      typed-emitter: 2.1.0
 
   packages/typed-tester:
     specifiers:
@@ -72,11 +89,13 @@ importers:
       glob-stream: ^7.0.0
       tsm: ^2.2.1
       typed-builder: workspace:*
+      typed-test-event-bus: workspace:*
     dependencies:
       '@types/glob-stream': 6.1.1
       glob-stream: 7.0.0
       tsm: 2.2.1
       typed-builder: link:../typed-builder
+      typed-test-event-bus: link:../typed-test-event-bus
 
   packages/typed-web-workers:
     specifiers:
@@ -1377,6 +1396,10 @@ packages:
       kind-of: 6.0.3
     dev: true
 
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
+
   /mixme/0.5.4:
     resolution: {integrity: sha512-3KYa4m4Vlqx98GPdOHghxSdNtTvcP8E0kkaJ5Dlh+h2DRzF7zpuVVcA8B0QpKd11YJeP9QQ7ASkKzOeu195Wzw==}
     engines: {node: '>= 8.0.0'}
@@ -1754,6 +1777,14 @@ packages:
       queue-microtask: 1.2.3
     dev: true
 
+  /rxjs/7.5.5:
+    resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
+    requiresBuild: true
+    dependencies:
+      tslib: 2.3.1
+    dev: true
+    optional: true
+
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: false
@@ -1988,7 +2019,6 @@ packages:
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
-    dev: false
 
   /tsm/2.2.1:
     resolution: {integrity: sha512-qvJB0baPnxQJolZru11mRgGTdNlx17WqgJnle7eht3Vhb+VUR4/zFA5hFl6NqRe7m8BD9w/6yu0B2XciRrdoJA==}
@@ -2023,6 +2053,12 @@ packages:
   /type-fest/0.8.1:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
+    dev: true
+
+  /typed-emitter/2.1.0:
+    resolution: {integrity: sha512-g/KzbYKbH5C2vPkaXGu8DJlHrGKHLsM25Zg9WuC9pMGfuvT+X25tZQWo5fK1BjBm8+UrVE9LDCvaY0CQk+fXDA==}
+    optionalDependencies:
+      rxjs: 7.5.5
     dev: true
 
   /typescript/4.6.4:

@@ -1,28 +1,28 @@
 import { createWorker, ICreateWorkerProps } from '../../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 declare const moment: any;
 
 const setup = () => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const workerMomentProps: ICreateWorkerProps<number, string> = {
       workerFunction: ({ input, callback }) => {
         callback(moment(input).format('YYYY'));
       },
-      importScripts: ['https://unpkg.com/moment@2.22.2/min/moment.min.js']
+      importScripts: ['https://unpkg.com/moment@2.22.2/min/moment.min.js'],
     };
     const momentWorker = createWorker({
       ...workerMomentProps,
-      onMessage: result => {
+      onMessage: (result) => {
         resolve(result);
-      }
+      },
     });
     momentWorker.postMessage(0);
   });
 };
 
-describe('importScript', test => {
-  test.describe('can import script', test => {
+block('importScript', (test) => {
+  test.describe('can import script', (test) => {
     test.it('returns the correct type', async () => {
       const result = await setup();
       assert(typeof result === 'string');
@@ -34,30 +34,30 @@ describe('importScript', test => {
     });
   });
 
-  describe('calls onError when given bad import', () => {
+  test.describe('calls onError when given bad import', () => {
     let result: string;
     const badImportURI = 'https://unpkg.com/something.that.gives.error.js';
     const invalidImportProps: ICreateWorkerProps<string, string> = {
       workerFunction: ({ input, callback }) => {
         callback(input);
       },
-      importScripts: [badImportURI]
+      importScripts: [badImportURI],
     };
 
     const errorMessage = 'error called';
 
     const setup = () => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         result = '';
         const badImportWorker = createWorker({
           ...invalidImportProps,
-          onMessage: res => {
+          onMessage: (res) => {
             throw 'should not be called';
           },
-          onError: err => {
+          onError: (err) => {
             err.preventDefault();
             resolve(errorMessage);
-          }
+          },
         });
 
         badImportWorker.postMessage('fails');
@@ -70,23 +70,23 @@ describe('importScript', test => {
     });
   });
 
-  describe('can import script in worker function', () => {
+  test.describe('can import script in worker function', () => {
     const workerMomentProps: ICreateWorkerProps<number, string> = {
       workerFunction: ({ input, callback }) => {
         if (self['moment'] === undefined) {
           importScripts('https://unpkg.com/moment@2.22.2/min/moment.min.js');
         }
         callback(moment(input).format('YYYY'));
-      }
+      },
     };
 
     const setup = () => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const momentWorker = createWorker({
           ...workerMomentProps,
-          onMessage: result => {
+          onMessage: (result) => {
             resolve(result);
-          }
+          },
         });
         momentWorker.postMessage(0);
       });

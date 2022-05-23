@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 const parseIntOption = (v: string): Option<number> => {
   const result = Number.parseInt(v);
@@ -10,8 +10,8 @@ const parseIntOption = (v: string): Option<number> => {
   }
 };
 
-describe('Option - match', function (test) {
-  describe('functions', function (test) {
+block('Option - match', function (test) {
+  test.describe('functions', function (test) {
     test.it('returns some', function () {
       const some = parseIntOption('1000');
       const result = some.match({
@@ -30,7 +30,7 @@ describe('Option - match', function (test) {
     });
   });
 
-  describe('constants', function (test) {
+  test.describe('constants', function (test) {
     test.it('returns some', function () {
       const some = parseIntOption('1000');
       const result = some.match({
@@ -49,7 +49,7 @@ describe('Option - match', function (test) {
     });
   });
 
-  describe('hybrids - functions and constants', function (test) {
+  test.describe('hybrids - functions and constants', function (test) {
     test.it('fn - returns some', function () {
       const some = parseIntOption('1000');
       const result = some.match({
@@ -83,7 +83,7 @@ describe('Option - match', function (test) {
       assert(result === 'none');
     });
   });
-  describe('can return different types', function (test) {
+  test.describe('can return different types', function (test) {
     test.it('return a some', function () {
       const some = parseIntOption('1000');
       const result = some.match({

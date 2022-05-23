@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { describe, assert } from 'typed-tester';
+import { block, assert } from 'typed-tester';
 
 function lift<A, B>(fn: (x: A) => B): (y: Option<A>) => Option<B> {
   return (z) => z.map(fn);
@@ -16,7 +16,7 @@ function liftMulti<A, B, C>(
     return None;
   }
 }
-describe('Option - advanced usage ', function (test) {
+block('Option - advanced usage ', function (test) {
   test.describe('lifting ', function (test) {
     test.it('single input values', function () {
       const absoluteLifted = lift(Math.abs);
