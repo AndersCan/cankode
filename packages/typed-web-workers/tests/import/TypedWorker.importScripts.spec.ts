@@ -1,5 +1,5 @@
 import { createWorker, ICreateWorkerProps } from '../../src/index';
-import { block, assert } from 'typed-tester';
+import { block, assert } from '@cankode/tester';
 
 declare const moment: any;
 

@@ -1,6 +1,6 @@
 import * as fc from 'fast-check';
 import { Option } from '../src/index';
-import { block } from 'typed-tester';
+import { block } from '@cankode/tester';
 
 // Properties
 block('Option - basic properties', (test) => {

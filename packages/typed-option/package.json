@@ -1,6 +1,6 @@
 {
-  "name": "typed-option",
-  "version": "3.2.0",
+  "name": "@cankode/option",
+  "version": "4.0.0",
   "type": "module",
   "description": "Typed option library",
   "types": "./build/index.d.ts",
@@ -24,10 +24,10 @@
   "devDependencies": {
     "fast-check": "^2.25.0",
     "tsm": "^2.2.1",
-    "typed-builder": "workspace:*",
-    "typed-tester": "workspace:*",
-    "typed-test-runner-node": "workspace:*",
-    "typed-test-runner-browser": "workspace:*"
+    "@cankode/builder": "workspace:*",
+    "@cankode/tester": "workspace:*",
+    "@cankode/test-runner-node": "workspace:*",
+    "@cankode/test-runner-browser": "workspace:*"
   },
-  "repository": "AndersCan/typed-option"
+  "repository": "AndersCan/@cankode/option"
 }

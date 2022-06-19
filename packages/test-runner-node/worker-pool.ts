@@ -1,5 +1,5 @@
 import { Worker, TransferListItem } from 'node:worker_threads';
-import { getEmitter, Events } from 'typed-test-event-bus';
+import { getEmitter, Events } from '@cankode/test-event-bus';
 
 export class WorkerPool {
   currentIndex;

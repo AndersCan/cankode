@@ -1,16 +1,16 @@
-# typed-web-workers
-[![npm version](https://img.shields.io/npm/v/typed-web-workers.svg?style=flat)](https://www.npmjs.com/package/typed-web-workers)[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=AndersCan/typed-web-workers)](https://dependabot.com)[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+# @cankode/web-workers
+[![npm version](https://img.shields.io/npm/v/@cankode/web-workers.svg?style=flat)](https://www.npmjs.com/package/@cankode/web-workers)[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=AndersCan/@cankode/web-workers)](https://dependabot.com)[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 Library that help you get quickly up and running with web workers in **TypeScript** or **JavaScript** projects.
 
 > ❗️❗️❗️ The `workerFunction` is executed in an **isolated context**. It can not rely on its surrounding context. Use `importScripts` if you need something added to the worker context
 
 # Installation
-`npm install typed-web-workers`
+`npm install @cankode/web-workers`
 
 # tl;dr
 ```javascript
-import { createWorker } from 'typed-web-workers'
+import { createWorker } from '@cankode/web-workers'
 
 const worker = createWorker({
   workerFunction: ({input, callback}) => callback(input * 2),

@@ -1,8 +1,15 @@
 {
-  "name": "typed-test-runner-node",
-  "version": "0.0.0",
+  "name": "@cankode/tester",
+  "version": "0.1.1",
   "description": "test-utils",
   "type": "module",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": "./build/index.js"
   },
@@ -11,8 +18,7 @@
   },
   "scripts": {
     "test": "echo 'whos tests the test-runner? :-|'",
-    "build": "tsm --unhandled-rejections=strict ./builder.ts",
-    "dev": "tsm --unhandled-rejections=strict ./node-runner.ts"
+    "build": "tsm --unhandled-rejections=strict ./builder.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,11 +26,7 @@
     "@types/glob-stream": "^6.1.1",
     "glob-stream": "^7.0.0",
     "tsm": "^2.2.1",
-    "typed-builder": "workspace:*",
-    "typed-tester": "workspace:*",
-    "typed-test-event-bus": "workspace:*"
-  },
-  "devDependencies": {
-    "typed-emitter": "^2.1.0"
+    "@cankode/builder": "workspace:*",
+    "@cankode/test-event-bus": "workspace:*"
   }
 }

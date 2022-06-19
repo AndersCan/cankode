@@ -1,7 +1,7 @@
 import gs from 'glob-stream';
 import os from 'os';
 
-import { getEmitter, Events } from 'typed-test-event-bus';
+import { getEmitter, Events } from '@cankode/test-event-bus';
 
 import { WorkerPool } from './worker-pool';
 

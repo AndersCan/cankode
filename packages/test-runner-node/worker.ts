@@ -1,5 +1,5 @@
 import { parentPort, MessagePort } from 'node:worker_threads';
-import { getEmitter, Events } from 'typed-test-event-bus';
+import { getEmitter, Events } from '@cankode/test-event-bus';
 
 if (parentPort === null) {
   // throw new Error(`worker in non-worker environment`);

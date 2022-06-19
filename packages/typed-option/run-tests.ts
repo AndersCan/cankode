@@ -1,10 +1,10 @@
-import { runTests } from 'typed-test-runner-node';
+import { runTests } from '@cankode/test-runner-node';
 import {
   startTestServer,
   testPageInChromium,
   testPageInFirefox,
   testPageInWebkit,
-} from 'typed-test-runner-browser';
+} from '@cankode/test-runner-browser';
 
 main();
 

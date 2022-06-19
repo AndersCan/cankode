@@ -1,6 +1,6 @@
 {
-  "name": "typed-web-workers",
-  "version": "4.0.0",
+  "name": "@cankode/web-workers",
+  "version": "5.0.0",
   "description": "Create web workers with type safety",
   "typings": "build/index.d.ts",
   "type": "module",
@@ -18,12 +18,12 @@
   ],
   "author": "anderscan",
   "license": "MIT",
-  "repository": "https://github.com/AndersCan/typed/tree/main/packages/typed-web-workers",
+  "repository": "https://github.com/AndersCan/typed/tree/main/packages/@cankode/web-workers",
   "devDependencies": {
     "fast-check": "^2.25.0",
     "tsm": "^2.2.1",
-    "typed-builder": "workspace:*",
-    "typed-tester": "workspace:*",
-    "typed-test-runner-browser": "workspace:*"
+    "@cankode/builder": "workspace:*",
+    "@cankode/tester": "workspace:*",
+    "@cankode/test-runner-browser": "workspace:*"
   }
 }

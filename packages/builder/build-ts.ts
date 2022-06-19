@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import { nodeExternalsPlugin } from 'esbuild-node-externals';
+
 interface BuildOptions {
   format: 'esm' | 'iife';
   platform: 'browser' | 'node';
@@ -20,6 +21,6 @@ export async function buildTs(
     bundle: true,
     write: true,
     plugins: options.platform === 'node' ? [nodeExternalsPlugin()] : [],
-    external: options.external
+    external: external,
   });
 }

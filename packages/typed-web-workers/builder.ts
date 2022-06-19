@@ -1,6 +1,7 @@
-import { buildTs } from 'typed-builder';
+import { buildTs, emitTypes } from '@cankode/builder';
 
 buildTs(['./src/index.ts'], './build', {
   platform: 'node',
-  format: 'esm'
+  format: 'esm',
 });
+emitTypes(['./src/index.ts'], './build');

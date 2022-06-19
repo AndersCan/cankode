@@ -1,4 +1,4 @@
-# typed-test-runner-browserr
+# @cankode/test-runner-browserr
 
 > wip
 
@@ -6,7 +6,7 @@
 `testPage` will run the tests via Playwright in `chromium`, `webkit` and `firefox`
 
 ```ts
-import { startTestServer, testPage } from 'typed-test-runner-browser';
+import { startTestServer, testPage } from '@cankode/test-runner-browser';
 
 main();
 

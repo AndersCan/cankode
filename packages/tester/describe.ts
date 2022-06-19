@@ -1,4 +1,4 @@
-import { getEmitter } from 'typed-test-event-bus';
+import { getEmitter } from '@cankode/test-event-bus';
 /**
  * Easy to make, but looks a little awkward in use, but:
  * 1. Easy to write

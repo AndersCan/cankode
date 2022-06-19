@@ -1,5 +1,5 @@
 import { createWorker, ITypedWorker } from '../src/index';
-import { block, assert } from 'typed-tester';
+import { block, assert } from '@cankode/tester';
 
 const setup = () => {
   return new Promise<{

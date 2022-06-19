@@ -1,5 +1,5 @@
 import { createWorker, WorkerFunctionProps } from '../src/index';
-import { block, assert } from 'typed-tester';
+import { block, assert } from '@cankode/tester';
 import * as fc from 'fast-check';
 
 const results: Record<string, Function> = {};

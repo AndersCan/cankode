@@ -5,12 +5,16 @@ importers:
   .:
     specifiers:
       '@changesets/cli': ^2.22.0
+      '@types/node': ^18.0.0
       prettier: ^2.6.2
+      typescript: ^4.6.4
     devDependencies:
       '@changesets/cli': 2.22.0
+      '@types/node': 18.0.0
       prettier: 2.6.2
+      typescript: 4.6.4
 
-  packages/typed-builder:
+  packages/builder:
     specifiers:
       esbuild: ^0.14.38
       esbuild-node-externals: ^1.4.1
@@ -22,98 +26,95 @@ importers:
       tsm: 2.2.1
       typescript: 4.6.4
 
-  packages/typed-option:
+  packages/test-event-bus:
     specifiers:
-      fast-check: ^2.25.0
-      tsm: ^2.2.1
-      typed-builder: workspace:*
-      typed-test-runner-browser: workspace:*
-      typed-test-runner-node: workspace:*
-      typed-tester: workspace:*
-    devDependencies:
-      fast-check: 2.25.0
-      tsm: 2.2.1
-      typed-builder: link:../typed-builder
-      typed-test-runner-browser: link:../typed-test-runner-browser
-      typed-test-runner-node: link:../typed-test-runner-node
-      typed-tester: link:../typed-tester
-
-  packages/typed-test-event-bus:
-    specifiers:
+      '@cankode/builder': workspace:*
       mitt: ^3.0.0
       tsm: ^2.2.1
-      typed-builder: workspace:*
     dependencies:
+      '@cankode/builder': link:../builder
       mitt: 3.0.0
       tsm: 2.2.1
-      typed-builder: link:../typed-builder
 
-  packages/typed-test-runner-browser:
+  packages/test-runner-browser:
     specifiers:
+      '@cankode/builder': workspace:*
+      '@cankode/test-event-bus': workspace:*
       '@types/glob-stream': ^6.1.1
       esbuild: ^0.14.38
       glob-stream: ^7.0.0
       playwright: ^1.21.1
       tempy: ^3.0.0
       tsm: ^2.2.1
-      typed-builder: workspace:*
-      typed-test-event-bus: workspace:*
     dependencies:
+      '@cankode/builder': link:../builder
+      '@cankode/test-event-bus': link:../test-event-bus
       '@types/glob-stream': 6.1.1
       esbuild: 0.14.38
       glob-stream: 7.0.0
       playwright: 1.21.1
       tempy: 3.0.0
       tsm: 2.2.1
-      typed-builder: link:../typed-builder
-      typed-test-event-bus: link:../typed-test-event-bus
 
-  packages/typed-test-runner-node:
+  packages/test-runner-node:
     specifiers:
+      '@cankode/builder': workspace:*
+      '@cankode/test-event-bus': workspace:*
+      '@cankode/tester': workspace:*
       '@types/glob-stream': ^6.1.1
       glob-stream: ^7.0.0
       tsm: ^2.2.1
-      typed-builder: workspace:*
-      typed-emitter: ^2.1.0
-      typed-test-event-bus: workspace:*
-      typed-tester: workspace:*
     dependencies:
+      '@cankode/builder': link:../builder
+      '@cankode/test-event-bus': link:../test-event-bus
+      '@cankode/tester': link:../tester
       '@types/glob-stream': 6.1.1
       glob-stream: 7.0.0
       tsm: 2.2.1
-      typed-builder: link:../typed-builder
-      typed-test-event-bus: link:../typed-test-event-bus
-      typed-tester: link:../typed-tester
+
+  packages/tester:
+    specifiers:
+      '@cankode/builder': workspace:*
+      '@cankode/test-event-bus': workspace:*
+      '@types/glob-stream': ^6.1.1
+      glob-stream: ^7.0.0
+      tsm: ^2.2.1
+    dependencies:
+      '@cankode/builder': link:../builder
+      '@cankode/test-event-bus': link:../test-event-bus
+      '@types/glob-stream': 6.1.1
+      glob-stream: 7.0.0
+      tsm: 2.2.1
+
+  packages/typed-option:
+    specifiers:
+      '@cankode/builder': workspace:*
+      '@cankode/test-runner-browser': workspace:*
+      '@cankode/test-runner-node': workspace:*
+      '@cankode/tester': workspace:*
+      fast-check: ^2.25.0
+      tsm: ^2.2.1
     devDependencies:
-      typed-emitter: 2.1.0
-
-  packages/typed-tester:
-    specifiers:
-      '@types/glob-stream': ^6.1.1
-      glob-stream: ^7.0.0
-      tsm: ^2.2.1
-      typed-builder: workspace:*
-      typed-test-event-bus: workspace:*
-    dependencies:
-      '@types/glob-stream': 6.1.1
-      glob-stream: 7.0.0
+      '@cankode/builder': link:../builder
+      '@cankode/test-runner-browser': link:../test-runner-browser
+      '@cankode/test-runner-node': link:../test-runner-node
+      '@cankode/tester': link:../tester
+      fast-check: 2.25.0
       tsm: 2.2.1
-      typed-builder: link:../typed-builder
-      typed-test-event-bus: link:../typed-test-event-bus
 
   packages/typed-web-workers:
     specifiers:
+      '@cankode/builder': workspace:*
+      '@cankode/test-runner-browser': workspace:*
+      '@cankode/tester': workspace:*
       fast-check: ^2.25.0
       tsm: ^2.2.1
-      typed-builder: workspace:*
-      typed-test-runner-browser: workspace:*
-      typed-tester: workspace:*
     devDependencies:
+      '@cankode/builder': link:../builder
+      '@cankode/test-runner-browser': link:../test-runner-browser
+      '@cankode/tester': link:../tester
       fast-check: 2.25.0
       tsm: 2.2.1
-      typed-builder: link:../typed-builder
-      typed-test-runner-browser: link:../typed-test-runner-browser
-      typed-tester: link:../typed-tester
 
 packages:
 
@@ -404,6 +405,10 @@ packages:
     resolution: {integrity: sha512-AR0x5HbXGqkEx9CadRH3EBYx/VkiUgZIhP4wvPn/+5KIsgpNoyFaRlVe0Zlx9gRtg8fA06a9tskE2MSN7TcG4Q==}
     dev: false
 
+  /@types/node/18.0.0:
+    resolution: {integrity: sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==}
+    dev: true
+
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
@@ -501,7 +506,7 @@ packages:
     dev: true
 
   /buffer-crc32/0.2.13:
-    resolution: {integrity: sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI=}
+    resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
     dev: false
 
   /camelcase-keys/6.2.2:
@@ -976,7 +981,7 @@ packages:
     dev: true
 
   /fd-slicer/1.1.0:
-    resolution: {integrity: sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=}
+    resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
     dependencies:
       pend: 1.2.0
     dev: false
@@ -1029,7 +1034,7 @@ packages:
     dev: true
 
   /fs.realpath/1.0.0:
-    resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
+    resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: false
 
   /function-bind/1.1.1:
@@ -1166,7 +1171,7 @@ packages:
     dev: true
 
   /inflight/1.0.6:
-    resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
+    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
@@ -1177,7 +1182,7 @@ packages:
     dev: false
 
   /ip/1.1.5:
-    resolution: {integrity: sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=}
+    resolution: {integrity: sha512-rBtCAQAJm8A110nbwn6YdveUnuZH3WrC36IwkRXxDnq53JvXA2NVQvB7IHyKomxK1MJ4VDNw3UtFDdXQ+AvLYA==}
     dev: false
 
   /is-absolute/1.0.0:
@@ -1206,7 +1211,7 @@ packages:
     dev: true
 
   /is-extglob/2.1.1:
-    resolution: {integrity: sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=}
+    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
 
   /is-fullwidth-code-point/3.0.0:
@@ -1221,7 +1226,7 @@ packages:
       is-extglob: 2.1.1
 
   /is-negated-glob/1.0.0:
-    resolution: {integrity: sha1-aRC8pdqMleeEtXUbl2z1oQ/uNtI=}
+    resolution: {integrity: sha512-czXVVn/QEmgvej1f50BZ648vUI+em0xqMq2Sn+QncCLN4zj1UAxlT+kw/6ggQTOaZPd1HqKQGEqbpQVtJucWug==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -1266,7 +1271,7 @@ packages:
     engines: {node: '>=0.10.0'}
 
   /isarray/1.0.0:
-    resolution: {integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=}
+    resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
     dev: false
 
   /isexe/2.0.0:
@@ -1294,7 +1299,7 @@ packages:
     dev: true
 
   /json-stable-stringify-without-jsonify/1.0.1:
-    resolution: {integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=}
+    resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
     dev: false
 
   /jsonfile/4.0.0:
@@ -1435,13 +1440,13 @@ packages:
     dev: true
 
   /once/1.4.0:
-    resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
+    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
     dev: false
 
   /ordered-read-streams/1.0.1:
-    resolution: {integrity: sha1-d8DLN8QVJdZBZtmQ/61+xqDhNj4=}
+    resolution: {integrity: sha512-Z87aSjx3r5c0ZB7bcJqIgIRX5bxR7A4aSzvIbaxd0oTkWBCOoKfuGHiKj60CHVUgg1Phm5yMZzBdt8XqRs73Mw==}
     dependencies:
       readable-stream: 2.3.7
     dev: false
@@ -1513,7 +1518,7 @@ packages:
     engines: {node: '>=8'}
 
   /path-is-absolute/1.0.1:
-    resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
+    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -1527,7 +1532,7 @@ packages:
     dev: true
 
   /pend/1.2.0:
-    resolution: {integrity: sha1-elfrVQpng/kRUzH89GY9XI4AelA=}
+    resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: false
 
   /picomatch/2.3.1:
@@ -1744,7 +1749,7 @@ packages:
     dev: true
 
   /remove-trailing-separator/1.1.0:
-    resolution: {integrity: sha1-wkvOKig62tW8P1jg1IJJuSN52O8=}
+    resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
     dev: false
 
   /require-directory/2.1.1:
@@ -1771,7 +1776,7 @@ packages:
     dev: true
 
   /retry/0.12.0:
-    resolution: {integrity: sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=}
+    resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
     engines: {node: '>= 4'}
     dev: false
 
@@ -1792,14 +1797,6 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
     dev: true
-
-  /rxjs/7.5.5:
-    resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
-    requiresBuild: true
-    dependencies:
-      tslib: 2.3.1
-    dev: true
-    optional: true
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -2029,7 +2026,7 @@ packages:
     dev: true
 
   /to-absolute-glob/2.0.2:
-    resolution: {integrity: sha1-GGX0PZ50sIItufFFt4z/fQ98hJs=}
+    resolution: {integrity: sha512-rtwLUQEwT8ZeKQbyFJyomBRYXyE16U5VKuy0ftxLMK/PZb2fkOsg5r9kHdauuVDbsNdIBoC/HCthpidamQFXYA==}
     engines: {node: '>=0.10.0'}
     dependencies:
       is-absolute: 1.0.0
@@ -2050,6 +2047,7 @@ packages:
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
+    dev: false
 
   /tsm/2.2.1:
     resolution: {integrity: sha512-qvJB0baPnxQJolZru11mRgGTdNlx17WqgJnle7eht3Vhb+VUR4/zFA5hFl6NqRe7m8BD9w/6yu0B2XciRrdoJA==}
@@ -2096,20 +2094,13 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  /typed-emitter/2.1.0:
-    resolution: {integrity: sha512-g/KzbYKbH5C2vPkaXGu8DJlHrGKHLsM25Zg9WuC9pMGfuvT+X25tZQWo5fK1BjBm8+UrVE9LDCvaY0CQk+fXDA==}
-    optionalDependencies:
-      rxjs: 7.5.5
-    dev: true
-
   /typescript/4.6.4:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
 
   /unc-path-regex/0.1.2:
-    resolution: {integrity: sha1-5z3T17DXxe2G+6xrCufYxqadUPo=}
+    resolution: {integrity: sha512-eXL4nmJT7oCpkZsHZUOJo8hcX3GbsiDOa0Qu9F646fi8dT3XuSVopVqAcEiVzSKKH7UoDti23wNX3qGFxcW5Qg==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -2133,7 +2124,7 @@ packages:
     dev: true
 
   /util-deprecate/1.0.2:
-    resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: false
 
   /validate-npm-package-license/3.0.4:
@@ -2178,7 +2169,7 @@ packages:
     dev: true
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: false
 
   /ws/8.4.2:

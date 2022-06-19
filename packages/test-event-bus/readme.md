@@ -1,12 +1,12 @@
-# typed-tester
+# @cankode/tester
 
 > wip
 
-Write tests to be run via `typed-test-runner-browser` and/or `typed-test-runner-node`.
+Write tests to be run via `@cankode/test-runner-browser` and/or `@cankode/test-runner-node`.
 
 
 ```ts
-import { describe, assert } from 'typed-tester';
+import { describe, assert } from '@cankode/tester';
 
 describe('A', test => {
   test.describe('AA', test => {

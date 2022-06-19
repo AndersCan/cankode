@@ -3,7 +3,7 @@ import {
   testPageInChromium,
   testPageInFirefox,
   testPageInWebkit,
-} from 'typed-test-runner-browser';
+} from '@cankode/test-runner-browser';
 
 main();
 async function main() {

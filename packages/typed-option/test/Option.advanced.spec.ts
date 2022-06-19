@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { block, assert } from 'typed-tester';
+import { block, assert } from '@cankode/tester';
 
 function lift<A, B>(fn: (x: A) => B): (y: Option<A>) => Option<B> {
   return (z) => z.map(fn);

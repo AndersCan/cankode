@@ -1,4 +1,4 @@
-import { block } from 'typed-tester';
+import { block } from '@cankode/tester';
 
 // Properties
 block('Block A start', (test) => {

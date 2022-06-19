@@ -1,4 +1,4 @@
-import { getEmitter, Events } from 'typed-test-event-bus';
+import { getEmitter, Events } from '@cankode/test-event-bus';
 interface IndentMessage {
   indentation: number;
   message: string;

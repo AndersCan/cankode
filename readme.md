@@ -1,16 +1,14 @@
-# typed-packages
+# @cankode/packages
 
 > Work in progress
 
 
 ## Packages
 
-[typed-builder](/packages/typed-builder)
-[typed-test-runner-browser](/packages/typed-test-runner-browser)
-[typed-tester](/packages/typed-tester)
-[typed-option](/packages/typed-option)
-[typed-test-runner-node](/packages/typed-test-runner-node)
-[typed-web-workers](/packages/typed-web-workers)
+[@cankode/builder](/packages/@cankode/builder)
+[@cankode/test-runner-browser](/packages/@cankode/test-runner-browser)
+[@cankode/tester](/packages/@cankode/tester)
+[@cankode/test-runner-node](/packages/@cankode/test-runner-node)
 
 
 ## Developing

@@ -1,5 +1,5 @@
 import { Option } from '../src/index';
-import { block, assert } from 'typed-tester';
+import { block, assert } from '@cankode/tester';
 
 interface Single {
   a?: string;

@@ -1,6 +1,6 @@
-# typed-option
-[![Build Status](https://travis-ci.org/AndersCan/typed-option.svg?branch=master)](https://travis-ci.org/AndersCan/typed-option)
-[![codecov](https://codecov.io/gh/AndersCan/typed-option/branch/master/graph/badge.svg)](https://codecov.io/gh/AndersCan/typed-option)
+# @cankode/option
+[![Build Status](https://travis-ci.org/AndersCan/@cankode/option.svg?branch=master)](https://travis-ci.org/AndersCan/@cankode/option)
+[![codecov](https://codecov.io/gh/AndersCan/@cankode/option/branch/master/graph/badge.svg)](https://codecov.io/gh/AndersCan/@cankode/option)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 Library for working with `Option`s in a type safe manner.
@@ -38,7 +38,7 @@ console.log(result)
 
 Into this:
 ```javascript
-import { Option } from 'typed-option'
+import { Option } from '@cankode/option'
 
 const result2 = Option.from('SUCCESS')
   .map(v => canFailFn(v)) // v is of type string.

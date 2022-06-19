@@ -1,5 +1,5 @@
 import { Option, Some, None } from '../src/index';
-import { block, assert } from 'typed-tester';
+import { block, assert } from '@cankode/tester';
 
 const positiveNumber = (input: number): Option<number> => {
   if (input > 0) {
