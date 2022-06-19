@@ -1,16 +1,23 @@
 import type { Browser } from 'playwright';
-import { chromium, webkit, firefox } from 'playwright';
+/**
+ * TODO: These function should also return the test results
+ */
+export async function testPageInChromium(url: string) {
+  const { chromium } = await import('playwright');
+  const chromeBrowser = await chromium.launch({ headless: true });
+  return run('chromium', chromeBrowser, url);
+}
 
-export async function testPage(url: string) {
-  const browser = await chromium.launch({ headless: true });
-  const webki = await webkit.launch({ headless: true });
-  const ff = await firefox.launch({ headless: true });
+export async function testPageInWebkit(url: string) {
+  const { webkit } = await import('playwright');
+  const webkitBrowser = await webkit.launch({ headless: true });
+  return run('webkit', webkitBrowser, url);
+}
 
-  return await Promise.all([
-    run('chromium', browser, url),
-    run('webkit', webki, url),
-    run('firefox', ff, url),
-  ]);
+export async function testPageInFirefox(url: string) {
+  const { firefox } = await import('playwright');
+  const firefoxBrowser = await firefox.launch({ headless: true });
+  return run('firefox', firefoxBrowser, url);
 }
 
 /**
@@ -23,16 +30,16 @@ async function run(name: string, browser: Browser, url: string) {
   const goodLogs: string[] = [];
 
   page.on('console', (message) => {
-    if (message.type() === 'error') {
-      const is404 = message.text().includes('Failed to load resource');
-      if (is404) {
-        return;
-      }
-      errorLogs.push(message.text());
-    }
-    goodLogs.push(message.text());
-  });
+    const good = '✅';
+    const bad = '❌';
 
+    const text = message.text();
+    if (text.includes(good)) {
+      goodLogs.push(text);
+    } else if (text.includes(bad)) {
+      errorLogs.push(text);
+    }
+  });
   await Promise.all([
     page.goto(url),
     page.waitForNavigation({ waitUntil: 'load' }),
@@ -48,5 +55,8 @@ async function run(name: string, browser: Browser, url: string) {
   }
 
   process.exitCode = 1;
-  console.error('FAIL', errorLogs);
+  console.log(`
+  ${name}${browser.version()}  
+    ${errorLogs.map((err) => err.trim())}
+  `);
 }

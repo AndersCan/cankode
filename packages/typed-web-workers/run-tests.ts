@@ -1,10 +1,19 @@
-import { startTestServer, testPage } from 'typed-test-runner-browser';
+import {
+  startTestServer,
+  testPageInChromium,
+  testPageInFirefox,
+  testPageInWebkit,
+} from 'typed-test-runner-browser';
 
 main();
 async function main() {
   const [url, server] = await startTestServer('./**/*.spec.ts');
   try {
-    await testPage(url);
+    await Promise.all([
+      testPageInChromium(url),
+      testPageInFirefox(url),
+      testPageInWebkit(url),
+    ]);
   } finally {
     server.close();
   }

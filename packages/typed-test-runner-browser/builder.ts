@@ -1,6 +1,6 @@
 import { buildTs } from 'typed-builder';
 
-buildTs(['./index.ts'], './build', {
+buildTs(['./index.ts', './browser-logger.ts'], './build', {
   platform: 'node',
-  format: 'esm'
+  format: 'esm',
 });
